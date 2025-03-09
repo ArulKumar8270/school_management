@@ -5,7 +5,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 const SpeedDialTemplate = ({ actions }) => {
     return (
         <CustomSpeedDial
-            ariaLabel="SpeedDial playground example"
+            ariaLabel="SpeedDial modern UI example"
             icon={<TuneIcon />}
             direction="left"
         >
@@ -25,10 +25,13 @@ export default SpeedDialTemplate
 
 const CustomSpeedDial = styled(SpeedDial)`
   .MuiSpeedDial-fab {
-    background-color: #032803;
-    
+    background-color: #6200ea;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+
     &:hover {
-      background-color: green;
+      background-color: #3700b3;
     }
   }
 `;

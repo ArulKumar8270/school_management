@@ -1,3 +1,7 @@
+import { useState, useEffect } from 'react';
+import { SpeedDial, SpeedDialIcon, SpeedDialAction } from '@mui/material';
+import styled from 'styled-components';
+
 const [isMobile, setIsMobile] = useState(false);
 
 useEffect(() => {
@@ -12,25 +16,26 @@ useEffect(() => {
     };
 }, []);
 
-{/* {
-          isMobile ?
-            <ActionMenu row={row} actions={actions} />
-            :
-            <StyledSpeedDial
-              ariaLabel="SpeedDial playground example"
-              icon={<SpeedDialIcon />}
-              direction="right"
-            >
-              {actions.map((action) => (
+{
+    isMobile ? (
+        <ActionMenu row={row} actions={actions} />
+    ) : (
+        <StyledSpeedDial
+            ariaLabel="SpeedDial modern UI example"
+            icon={<SpeedDialIcon />}
+            direction="right"
+        >
+            {actions.map((action) => (
                 <SpeedDialAction
-                  key={action.name}
-                  icon={action.icon}
-                  tooltipTitle={action.name}
-                  onClick={action.action}
+                    key={action.name}
+                    icon={action.icon}
+                    tooltipTitle={action.name}
+                    onClick={action.action}
                 />
-              ))}
-            </StyledSpeedDial>
-        } */}
+            ))}
+        </StyledSpeedDial>
+    )
+}
 
 const StyledSpeedDial = styled(SpeedDial)`
   .MuiSpeedDial-fab {

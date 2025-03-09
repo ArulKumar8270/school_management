@@ -1,171 +1,172 @@
-import { useEffect, useState } from 'react';
-import { IconButton, Box, Menu, MenuItem, ListItemIcon, Tooltip } from '@mui/material';
+import { useEffect, useState } from "react";
+import {
+  IconButton,
+  Box,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  Tooltip,
+  CircularProgress,
+  Typography,
+  Card,
+  CardContent,
+  CardActions,
+  Divider,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { deleteUser } from '../../../redux/userRelated/userHandle';
-import { getAllSclasses } from '../../../redux/sclassRelated/sclassHandle';
-import { BlueButton, GreenButton } from '../../../components/buttonStyles';
-import TableTemplate from '../../../components/TableTemplate';
-
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
-import PostAddIcon from '@mui/icons-material/PostAdd';
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
-import AddCardIcon from '@mui/icons-material/AddCard';
-import styled from 'styled-components';
-import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
-import Popup from '../../../components/Popup';
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getAllSclasses } from "../../../redux/sclassRelated/sclassHandle";
+import { BlueButton, GreenButton } from "../../../components/buttonStyles";
+import SpeedDialIcon from "@mui/material/SpeedDialIcon";
+import PostAddIcon from "@mui/icons-material/PostAdd";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import AddCardIcon from "@mui/icons-material/AddCard";
+import SpeedDialTemplate from "../../../components/SpeedDialTemplate";
+import Popup from "../../../components/Popup";
+import styled from "styled-components";
 
 const ShowClasses = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { sclassesList, loading, error, getresponse } = useSelector((state) => state.sclass);
-  const { currentUser } = useSelector(state => state.user)
+  const { sclassesList, loading, error, getresponse } = useSelector(
+    (state) => state.sclass
+  );
+  const { currentUser } = useSelector((state) => state.user);
 
-  const adminID = currentUser._id
+  const adminID = currentUser._id;
 
   useEffect(() => {
     dispatch(getAllSclasses(adminID, "Sclass"));
   }, [adminID, dispatch]);
 
   if (error) {
-    console.log(error)
+    console.error(error);
   }
 
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
 
   const deleteHandler = (deleteID, address) => {
-    console.log(deleteID);
-    console.log(address);
-    setMessage("Sorry the delete function has been disabled for now.")
-    setShowPopup(true)
-    // dispatch(deleteUser(deleteID, address))
-    //   .then(() => {
-    //     dispatch(getAllSclasses(adminID, "Sclass"));
-    //   })
-  }
+    setMessage("Sorry, the delete function has been disabled for now.");
+    setShowPopup(true);
+  };
 
-  const sclassColumns = [
-    { id: 'name', label: 'Class Name', minWidth: 170 },
-  ]
+  const sclassColumns = [{ id: "name", label: "Class Name", minWidth: 170 }];
 
-  const sclassRows = sclassesList && sclassesList.length > 0 && sclassesList.map((sclass) => {
-    return {
+  const sclassRows =
+    sclassesList &&
+    sclassesList.length > 0 &&
+    sclassesList.map((sclass) => ({
       name: sclass.sclassName,
       id: sclass._id,
-    };
-  })
+    }));
 
-  const SclassButtonHaver = ({ row }) => {
-    const actions = [
-      { icon: <PostAddIcon />, name: 'Add Subjects', action: () => navigate("/Admin/addsubject/" + row.id) },
-      { icon: <PersonAddAlt1Icon />, name: 'Add Student', action: () => navigate("/Admin/class/addstudents/" + row.id) },
-    ];
+  const SclassCard = ({ row }) => {
     return (
-      <ButtonContainer>
-        <IconButton onClick={() => deleteHandler(row.id, "Sclass")} color="secondary">
-          <DeleteIcon color="error" />
-        </IconButton>
-        <BlueButton variant="contained"
-          onClick={() => navigate("/Admin/classes/class/" + row.id)}>
-          View
-        </BlueButton>
-        <ActionMenu actions={actions} />
-      </ButtonContainer>
+      <StyledCard>
+        <CardContent>
+          <Typography variant="h6" className="class-title">
+            {row.name}
+          </Typography>
+          <Divider sx={{ my: 1 }} />
+        </CardContent>
+        <CardActions className="card-actions">
+          <Tooltip title="Delete Class">
+            <IconButton onClick={() => deleteHandler(row.id, "Sclass")} color="error">
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+          <BlueButton variant="contained" onClick={() => navigate(`/Admin/classes/class/${row.id}`)}>
+            View
+          </BlueButton>
+          <ActionMenu row={row} />
+        </CardActions>
+      </StyledCard>
     );
   };
 
-  const ActionMenu = ({ actions }) => {
+  const ActionMenu = ({ row }) => {
     const [anchorEl, setAnchorEl] = useState(null);
-
     const open = Boolean(anchorEl);
 
-    const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
+    const handleClick = (event) => setAnchorEl(event.currentTarget);
+    const handleClose = () => setAnchorEl(null);
+
     return (
       <>
-        <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-          <Tooltip title="Add Students & Subjects">
-            <IconButton
-              onClick={handleClick}
-              size="small"
-              sx={{ ml: 2 }}
-              aria-controls={open ? 'account-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-            >
-              <h5>Add</h5>
-              <SpeedDialIcon />
-            </IconButton>
-          </Tooltip>
-        </Box>
+        <Tooltip title="More Actions">
+          <IconButton onClick={handleClick} size="small" sx={{ ml: 1 }}>
+            <SpeedDialIcon />
+          </IconButton>
+        </Tooltip>
         <Menu
           anchorEl={anchorEl}
-          id="account-menu"
           open={open}
           onClose={handleClose}
-          onClick={handleClose}
           PaperProps={{
-            elevation: 0,
+            elevation: 5,
             sx: styles.styledPaper,
           }}
-          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-          {actions.map((action) => (
-            <MenuItem onClick={action.action}>
-              <ListItemIcon fontSize="small">
-                {action.icon}
-              </ListItemIcon>
-              {action.name}
-            </MenuItem>
-          ))}
+          <MenuItem onClick={() => navigate(`/Admin/addsubject/${row.id}`)}>
+            <ListItemIcon>
+              <PostAddIcon />
+            </ListItemIcon>
+            Add Subjects
+          </MenuItem>
+          <MenuItem onClick={() => navigate(`/Admin/class/addstudents/${row.id}`)}>
+            <ListItemIcon>
+              <PersonAddAlt1Icon />
+            </ListItemIcon>
+            Add Students
+          </MenuItem>
         </Menu>
       </>
     );
-  }
+  };
 
   const actions = [
     {
-      icon: <AddCardIcon color="primary" />, name: 'Add New Class',
-      action: () => navigate("/Admin/addclass")
+      icon: <AddCardIcon color="primary" />,
+      name: "Add New Class",
+      action: () => navigate("/Admin/addclass"),
     },
     {
-      icon: <DeleteIcon color="error" />, name: 'Delete All Classes',
-      action: () => deleteHandler(adminID, "Sclasses")
+      icon: <DeleteIcon color="error" />,
+      name: "Delete All Classes",
+      action: () => deleteHandler(adminID, "Sclasses"),
     },
   ];
 
   return (
-    <>
-      {loading ?
-        <div>Loading...</div>
-        :
+    <Container>
+      {loading ? (
+        <LoadingContainer>
+          <CircularProgress />
+        </LoadingContainer>
+      ) : (
         <>
-          {getresponse ?
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
+          {getresponse && (
+            <Box className="add-class-btn">
               <GreenButton variant="contained" onClick={() => navigate("/Admin/addclass")}>
                 Add Class
               </GreenButton>
             </Box>
-            :
-            <>
-              {Array.isArray(sclassesList) && sclassesList.length > 0 &&
-                <TableTemplate buttonHaver={SclassButtonHaver} columns={sclassColumns} rows={sclassRows} />
-              }
-              <SpeedDialTemplate actions={actions} />
-            </>}
-        </>
-      }
-      <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
+          )}
 
-    </>
+          <GridContainer>
+            {Array.isArray(sclassesList) &&
+              sclassesList.length > 0 &&
+              sclassRows.map((row) => <SclassCard key={row.id} row={row} />)}
+          </GridContainer>
+
+          <SpeedDialTemplate actions={actions} />
+        </>
+      )}
+      <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
+    </Container>
   );
 };
 
@@ -173,33 +174,64 @@ export default ShowClasses;
 
 const styles = {
   styledPaper: {
-    overflow: 'visible',
-    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+    overflow: "visible",
+    filter: "drop-shadow(0px 4px 10px rgba(0,0,0,0.25))",
     mt: 1.5,
-    '& .MuiAvatar-root': {
-      width: 32,
-      height: 32,
-      ml: -0.5,
-      mr: 1,
-    },
-    '&:before': {
+    "&:before": {
       content: '""',
-      display: 'block',
-      position: 'absolute',
+      display: "block",
+      position: "absolute",
       top: 0,
       right: 14,
       width: 10,
       height: 10,
-      bgcolor: 'background.paper',
-      transform: 'translateY(-50%) rotate(45deg)',
+      bgcolor: "background.paper",
+      transform: "translateY(-50%) rotate(45deg)",
       zIndex: 0,
     },
-  }
-}
+  },
+};
 
-const ButtonContainer = styled.div`
+const Container = styled.div`
+  padding: 20px;
+`;
+
+const LoadingContainer = styled.div`
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+`;
+
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1rem;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
+const StyledCard = styled(Card)`
+  width: 300px;
+  padding: 16px;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  .class-title {
+    font-weight: bold;
+    color: #1e88e5;
+  }
+
+  .card-actions {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+  }
 `;

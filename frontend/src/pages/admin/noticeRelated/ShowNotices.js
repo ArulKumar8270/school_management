@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import {
-    Paper, Box, IconButton
+    Paper, Box, IconButton, CircularProgress, Typography, styled
 } from '@mui/material';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -12,12 +12,29 @@ import TableTemplate from '../../../components/TableTemplate';
 import { GreenButton } from '../../../components/buttonStyles';
 import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
 
+const StyledPaper = styled(Paper)(({ theme }) => ({
+    width: '100%',
+    overflow: 'hidden',
+    padding: theme.spacing(2),
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[3],
+}));
+
+const StyledBox = styled(Box)(({ theme }) => ({
+    padding: theme.spacing(2),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '100vh',
+}));
+
 const ShowNotices = () => {
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { noticesList, loading, error, response } = useSelector((state) => state.notice);
-    const { currentUser } = useSelector(state => state.user)
+    const { currentUser } = useSelector(state => state.user);
 
     useEffect(() => {
         dispatch(getAllNotices(currentUser._id, "Notice"));
@@ -31,8 +48,8 @@ const ShowNotices = () => {
         dispatch(deleteUser(deleteID, address))
             .then(() => {
                 dispatch(getAllNotices(currentUser._id, "Notice"));
-            })
-    }
+            });
+    };
 
     const noticeColumns = [
         { id: 'title', label: 'Title', minWidth: 170 },
@@ -53,11 +70,9 @@ const ShowNotices = () => {
 
     const NoticeButtonHaver = ({ row }) => {
         return (
-            <>
-                <IconButton onClick={() => deleteHandler(row.id, "Notice")}>
-                    <DeleteIcon color="error" />
-                </IconButton>
-            </>
+            <IconButton onClick={() => deleteHandler(row.id, "Notice")}>
+                <DeleteIcon color="error" />
+            </IconButton>
         );
     };
 
@@ -73,29 +88,31 @@ const ShowNotices = () => {
     ];
 
     return (
-        <>
-            {loading ?
-                <div>Loading...</div>
-                :
+        <StyledBox>
+            {loading ? (
+                <CircularProgress />
+            ) : (
                 <>
-                    {response ?
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-                            <GreenButton variant="contained"
-                                onClick={() => navigate("/Admin/addnotice")}>
+                    {response ? (
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px' }}>
+                            <GreenButton variant="contained" onClick={() => navigate("/Admin/addnotice")}>
                                 Add Notice
                             </GreenButton>
                         </Box>
-                        :
-                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                            {Array.isArray(noticesList) && noticesList.length > 0 &&
+                    ) : (
+                        <StyledPaper>
+                            <Typography variant="h5" gutterBottom>
+                                Notices
+                            </Typography>
+                            {Array.isArray(noticesList) && noticesList.length > 0 && (
                                 <TableTemplate buttonHaver={NoticeButtonHaver} columns={noticeColumns} rows={noticeRows} />
-                            }
+                            )}
                             <SpeedDialTemplate actions={actions} />
-                        </Paper>
-                    }
+                        </StyledPaper>
+                    )}
                 </>
-            }
-        </>
+            )}
+        </StyledBox>
     );
 };
 

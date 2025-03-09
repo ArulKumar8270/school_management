@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addStuff } from '../../../redux/userRelated/userHandle';
 import { underControl } from '../../../redux/userRelated/userSlice';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, TextField, Button, Container, Typography, Box } from '@mui/material';
 import Popup from '../../../components/Popup';
 
 const AddNotice = () => {
@@ -15,14 +15,14 @@ const AddNotice = () => {
   const [title, setTitle] = useState('');
   const [details, setDetails] = useState('');
   const [date, setDate] = useState('');
-  const adminID = currentUser._id
+  const adminID = currentUser._id;
 
   const [loader, setLoader] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
 
   const fields = { title, details, date, adminID };
-  const address = "Notice"
+  const address = "Notice";
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -33,48 +33,64 @@ const AddNotice = () => {
   useEffect(() => {
     if (status === 'added') {
       navigate('/Admin/notices');
-      dispatch(underControl())
+      dispatch(underControl());
     } else if (status === 'error') {
-      setMessage("Network Error")
-      setShowPopup(true)
-      setLoader(false)
+      setMessage("Network Error");
+      setShowPopup(true);
+      setLoader(false);
     }
   }, [status, navigate, error, response, dispatch]);
 
   return (
-    <>
-      <div className="register">
-        <form className="registerForm" onSubmit={submitHandler}>
-          <span className="registerTitle">Add Notice</span>
-          <label>Title</label>
-          <input className="registerInput" type="text" placeholder="Enter notice title..."
+    <Container maxWidth="sm">
+      <Box sx={{ mt: 4, p: 3, boxShadow: 3, borderRadius: 2, bgcolor: 'background.paper' }}>
+        <Typography variant="h4" align="center" gutterBottom>
+          Add Notice
+        </Typography>
+        <form onSubmit={submitHandler}>
+          <TextField
+            fullWidth
+            label="Title"
+            variant="outlined"
+            margin="normal"
             value={title}
             onChange={(event) => setTitle(event.target.value)}
-            required />
-
-          <label>Details</label>
-          <input className="registerInput" type="text" placeholder="Enter notice details..."
+            required
+          />
+          <TextField
+            fullWidth
+            label="Details"
+            variant="outlined"
+            margin="normal"
             value={details}
             onChange={(event) => setDetails(event.target.value)}
-            required />
-
-          <label>Date</label>
-          <input className="registerInput" type="date" placeholder="Enter notice date..."
+            required
+          />
+          <TextField
+            fullWidth
+            label="Date"
+            type="date"
+            variant="outlined"
+            margin="normal"
+            InputLabelProps={{ shrink: true }}
             value={date}
             onChange={(event) => setDate(event.target.value)}
-            required />
-
-          <button className="registerButton" type="submit" disabled={loader}>
-            {loader ? (
-              <CircularProgress size={24} color="inherit" />
-            ) : (
-              'Add'
-            )}
-          </button>
+            required
+          />
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            type="submit"
+            disabled={loader}
+            sx={{ mt: 2 }}
+          >
+            {loader ? <CircularProgress size={24} color="inherit" /> : 'Add'}
+          </Button>
         </form>
-      </div>
+      </Box>
       <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
-    </>
+    </Container>
   );
 };
 

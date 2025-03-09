@@ -1,39 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetails } from '../../redux/userRelated/userHandle';
-import { useNavigate, useParams } from 'react-router-dom'
-import { Box, Button, Collapse, Table, TableBody, TableHead, Typography } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+    Box, Button, Collapse, Table, TableBody, TableHead, Typography, Paper, CircularProgress
+} from '@mui/material';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import { calculateOverallAttendancePercentage, calculateSubjectAttendancePercentage, groupAttendanceBySubject } from '../../components/attendanceCalculator';
-import CustomPieChart from '../../components/CustomPieChart'
+import CustomPieChart from '../../components/CustomPieChart';
 import { PurpleButton } from '../../components/buttonStyles';
 import { StyledTableCell, StyledTableRow } from '../../components/styles';
+import styled from 'styled-components';
 
 const TeacherViewStudent = () => {
-
-    const navigate = useNavigate()
-    const params = useParams()
+    const navigate = useNavigate();
+    const params = useParams();
     const dispatch = useDispatch();
-    const { currentUser, userDetails, response, loading, error } = useSelector((state) => state.user);
+    const { currentUser, userDetails, loading } = useSelector((state) => state.user);
 
-    const address = "Student"
-    const studentID = params.id
-    const teachSubject = currentUser.teachSubject?.subName
-    const teachSubjectID = currentUser.teachSubject?._id
+    const address = "Student";
+    const studentID = params.id;
+    const teachSubject = currentUser.teachSubject?.subName;
+    const teachSubjectID = currentUser.teachSubject?._id;
 
     useEffect(() => {
         dispatch(getUserDetails(studentID, address));
     }, [dispatch, studentID]);
 
-    if (response) { console.log(response) }
-    else if (error) { console.log(error) }
-
-    const [sclassName, setSclassName] = useState('');
-    const [studentSchool, setStudentSchool] = useState('');
-    const [subjectMarks, setSubjectMarks] = useState('');
     const [subjectAttendance, setSubjectAttendance] = useState([]);
-
+    const [subjectMarks, setSubjectMarks] = useState([]);
     const [openStates, setOpenStates] = useState({});
+
+    useEffect(() => {
+        if (userDetails) {
+            setSubjectMarks(userDetails.examResult || []);
+            setSubjectAttendance(userDetails.attendance || []);
+        }
+    }, [userDetails]);
 
     const handleOpen = (subId) => {
         setOpenStates((prevState) => ({
@@ -41,15 +44,6 @@ const TeacherViewStudent = () => {
             [subId]: !prevState[subId],
         }));
     };
-
-    useEffect(() => {
-        if (userDetails) {
-            setSclassName(userDetails.sclassName || '');
-            setStudentSchool(userDetails.school || '');
-            setSubjectMarks(userDetails.examResult || '');
-            setSubjectAttendance(userDetails.attendance || []);
-        }
-    }, [userDetails]);
 
     const overallAttendancePercentage = calculateOverallAttendancePercentage(subjectAttendance);
     const overallAbsentPercentage = 100 - overallAttendancePercentage;
@@ -60,157 +54,155 @@ const TeacherViewStudent = () => {
     ];
 
     return (
-        <>
-            {loading
-                ?
-                <>
-                    <div>Loading...</div>
-                </>
-                :
-                <div>
-                    Name: {userDetails.name}
-                    <br />
-                    Roll Number: {userDetails.rollNum}
-                    <br />
-                    Class: {sclassName.sclassName}
-                    <br />
-                    School: {studentSchool.schoolName}
-                    <br /><br />
+        <StyledContainer>
+            {loading ? (
+                <LoadingContainer>
+                    <CircularProgress size={50} />
+                    <Typography variant="h6" sx={{ mt: 2, color: "#555" }}>
+                        Loading Student Details...
+                    </Typography>
+                </LoadingContainer>
+            ) : (
+                <StyledPaper>
+                    <Typography variant="h5" align="center" gutterBottom className="gradient-text">
+                        📚 Student Profile
+                    </Typography>
+                    <ProfileInfo>
+                        <Typography variant="h6"><strong>👤 Name:</strong> {userDetails?.name}</Typography>
+                        <Typography variant="h6"><strong>📛 Roll Number:</strong> {userDetails?.rollNum}</Typography>
+                        <Typography variant="h6"><strong>📖 Subject:</strong> {teachSubject}</Typography>
+                    </ProfileInfo>
 
-                    <h3>Attendance:</h3>
-                    {subjectAttendance && Array.isArray(subjectAttendance) && subjectAttendance.length > 0
-                        &&
+                    <Typography variant="h5" align="center" sx={{ mt: 3, mb: 2 }}>
+                        Attendance Overview
+                    </Typography>
+
+                    {subjectAttendance.length > 0 && (
                         <>
                             {Object.entries(groupAttendanceBySubject(subjectAttendance)).map(([subName, { present, allData, subId, sessions }], index) => {
                                 if (subName === teachSubject) {
                                     const subjectAttendancePercentage = calculateSubjectAttendancePercentage(present, sessions);
-
                                     return (
-                                        <Table key={index}>
-                                            <TableHead>
-                                                <StyledTableRow>
-                                                    <StyledTableCell>Subject</StyledTableCell>
-                                                    <StyledTableCell>Present</StyledTableCell>
-                                                    <StyledTableCell>Total Sessions</StyledTableCell>
-                                                    <StyledTableCell>Attendance Percentage</StyledTableCell>
-                                                    <StyledTableCell align="center">Actions</StyledTableCell>
-                                                </StyledTableRow>
-                                            </TableHead>
-
-                                            <TableBody>
-                                                <StyledTableRow>
-                                                    <StyledTableCell>{subName}</StyledTableCell>
-                                                    <StyledTableCell>{present}</StyledTableCell>
-                                                    <StyledTableCell>{sessions}</StyledTableCell>
-                                                    <StyledTableCell>{subjectAttendancePercentage}%</StyledTableCell>
-                                                    <StyledTableCell align="center">
-                                                        <Button variant="contained" onClick={() => handleOpen(subId)}>
-                                                            {openStates[subId] ? <KeyboardArrowUp /> : <KeyboardArrowDown />}Details
-                                                        </Button>
-                                                    </StyledTableCell>
-                                                </StyledTableRow>
-                                                <StyledTableRow>
-                                                    <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                                                        <Collapse in={openStates[subId]} timeout="auto" unmountOnExit>
-                                                            <Box sx={{ margin: 1 }}>
-                                                                <Typography variant="h6" gutterBottom component="div">
-                                                                    Attendance Details
-                                                                </Typography>
-                                                                <Table size="small" aria-label="purchases">
-                                                                    <TableHead>
-                                                                        <StyledTableRow>
-                                                                            <StyledTableCell>Date</StyledTableCell>
-                                                                            <StyledTableCell align="right">Status</StyledTableCell>
-                                                                        </StyledTableRow>
-                                                                    </TableHead>
-                                                                    <TableBody>
-                                                                        {allData.map((data, index) => {
-                                                                            const date = new Date(data.date);
-                                                                            const dateString = date.toString() !== "Invalid Date" ? date.toISOString().substring(0, 10) : "Invalid Date";
-                                                                            return (
-                                                                                <StyledTableRow key={index}>
-                                                                                    <StyledTableCell component="th" scope="row">
-                                                                                        {dateString}
-                                                                                    </StyledTableCell>
-                                                                                    <StyledTableCell align="right">{data.status}</StyledTableCell>
-                                                                                </StyledTableRow>
-                                                                            );
-                                                                        })}
-                                                                    </TableBody>
-                                                                </Table>
-                                                            </Box>
-                                                        </Collapse>
-                                                    </StyledTableCell>
-                                                </StyledTableRow>
-                                            </TableBody>
-                                        </Table>
-                                    )
+                                        <TableWrapper key={index}>
+                                            <Table>
+                                                <TableHead>
+                                                    <StyledTableRow>
+                                                        <StyledTableCell>Subject</StyledTableCell>
+                                                        <StyledTableCell>Present</StyledTableCell>
+                                                        <StyledTableCell>Total Sessions</StyledTableCell>
+                                                        <StyledTableCell>Attendance %</StyledTableCell>
+                                                        <StyledTableCell align="center">Actions</StyledTableCell>
+                                                    </StyledTableRow>
+                                                </TableHead>
+                                                <TableBody>
+                                                    <StyledTableRow>
+                                                        <StyledTableCell>{subName}</StyledTableCell>
+                                                        <StyledTableCell>{present}</StyledTableCell>
+                                                        <StyledTableCell>{sessions}</StyledTableCell>
+                                                        <StyledTableCell>{subjectAttendancePercentage}%</StyledTableCell>
+                                                        <StyledTableCell align="center">
+                                                            <Button variant="contained" onClick={() => handleOpen(subId)}>
+                                                                {openStates[subId] ? <KeyboardArrowUp /> : <KeyboardArrowDown />} Details
+                                                            </Button>
+                                                        </StyledTableCell>
+                                                    </StyledTableRow>
+                                                    <StyledTableRow>
+                                                        <StyledTableCell colSpan={6}>
+                                                            <Collapse in={openStates[subId]} timeout="auto" unmountOnExit>
+                                                                <Box sx={{ margin: 1 }}>
+                                                                    <Typography variant="h6" gutterBottom>Attendance Details</Typography>
+                                                                    <Table size="small">
+                                                                        <TableHead>
+                                                                            <StyledTableRow>
+                                                                                <StyledTableCell>Date</StyledTableCell>
+                                                                                <StyledTableCell align="right">Status</StyledTableCell>
+                                                                            </StyledTableRow>
+                                                                        </TableHead>
+                                                                        <TableBody>
+                                                                            {allData.map((data, index) => {
+                                                                                const date = new Date(data.date);
+                                                                                return (
+                                                                                    <StyledTableRow key={index}>
+                                                                                        <StyledTableCell>{date.toISOString().substring(0, 10)}</StyledTableCell>
+                                                                                        <StyledTableCell align="right">{data.status}</StyledTableCell>
+                                                                                    </StyledTableRow>
+                                                                                );
+                                                                            })}
+                                                                        </TableBody>
+                                                                    </Table>
+                                                                </Box>
+                                                            </Collapse>
+                                                        </StyledTableCell>
+                                                    </StyledTableRow>
+                                                </TableBody>
+                                            </Table>
+                                        </TableWrapper>
+                                    );
                                 }
-                                else {
-                                    return null
-                                }
+                                return null;
                             })}
-                            <div>
-                                Overall Attendance Percentage: {overallAttendancePercentage.toFixed(2)}%
-                            </div>
+
+                            <Typography variant="h6" align="center" sx={{ mt: 3 }}>
+                                📊 Overall Attendance Percentage: <strong>{overallAttendancePercentage.toFixed(2)}%</strong>
+                            </Typography>
 
                             <CustomPieChart data={chartData} />
                         </>
-                    }
-                    <br /><br />
-                    <Button
-                        variant="contained"
-                        onClick={() =>
-                            navigate(
-                                `/Teacher/class/student/attendance/${studentID}/${teachSubjectID}`
-                            )
-                        }
-                    >
-                        Add Attendance
-                    </Button>
-                    <br /><br /><br />
-                    <h3>Subject Marks:</h3>
+                    )}
 
-                    {subjectMarks && Array.isArray(subjectMarks) && subjectMarks.length > 0 &&
-                        <>
-                            {subjectMarks.map((result, index) => {
-                                if (result.subName.subName === teachSubject) {
-                                    return (
-                                        <Table key={index}>
-                                            <TableHead>
-                                                <StyledTableRow>
-                                                    <StyledTableCell>Subject</StyledTableCell>
-                                                    <StyledTableCell>Marks</StyledTableCell>
-                                                </StyledTableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                <StyledTableRow>
-                                                    <StyledTableCell>{result.subName.subName}</StyledTableCell>
-                                                    <StyledTableCell>{result.marksObtained}</StyledTableCell>
-                                                </StyledTableRow>
-                                            </TableBody>
-                                        </Table>
-                                    )
-                                }
-                                else if (!result.subName || !result.marksObtained) {
-                                    return null;
-                                }
-                                return null
-                            })}
-                        </>
-                    }
-                    <PurpleButton variant="contained"
-                        onClick={() =>
-                            navigate(
-                                `/Teacher/class/student/marks/${studentID}/${teachSubjectID}`
-                            )}>
-                        Add Marks
-                    </PurpleButton>
-                    <br /><br /><br />
-                </div>
-            }
-        </>
-    )
-}
+                    <ButtonWrapper>
+                        <PurpleButton variant="contained" onClick={() => navigate(`/Teacher/class/student/attendance/${studentID}/${teachSubjectID}`)}>
+                            Add Attendance
+                        </PurpleButton>
+                        <PurpleButton variant="contained" onClick={() => navigate(`/Teacher/class/student/marks/${studentID}/${teachSubjectID}`)}>
+                            Add Marks
+                        </PurpleButton>
+                    </ButtonWrapper>
+                </StyledPaper>
+            )}
+        </StyledContainer>
+    );
+};
 
-export default TeacherViewStudent
+export default TeacherViewStudent;
+
+// 🎨 Styled Components for Modern UI
+const StyledContainer = styled(Box)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 85vh;
+    padding: 30px;
+    background: linear-gradient(135deg, #e3f2fd, #f1f8e9);
+`;
+
+const StyledPaper = styled(Paper)`
+    max-width: 800px;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2);
+    background: white;
+`;
+
+const ProfileInfo = styled(Box)`
+    text-align: center;
+    margin-bottom: 20px;
+`;
+
+const TableWrapper = styled(Box)`
+    margin-top: 20px;
+`;
+
+const ButtonWrapper = styled(Box)`
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+`;
+
+const LoadingContainer = styled(Box)`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50vh;
+`;

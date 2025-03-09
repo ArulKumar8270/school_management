@@ -1,19 +1,19 @@
+import { Typography } from '@mui/material';
+
+// Start of Selection
 export const calculateSubjectAttendancePercentage = (presentCount, totalSessions) => {
     if (totalSessions === 0 || presentCount === 0) {
         return 0;
     }
     const percentage = (presentCount / totalSessions) * 100;
-    return percentage.toFixed(2); // Limit to two decimal places
+    return parseFloat(percentage.toFixed(2)); // Limit to two decimal places
 };
-
 
 export const groupAttendanceBySubject = (subjectAttendance) => {
     const attendanceBySubject = {};
 
     subjectAttendance.forEach((attendance) => {
-        const subName = attendance.subName.subName;
-        const sessions = attendance.subName.sessions;
-        const subId = attendance.subName._id;
+        const { subName, sessions, _id: subId } = attendance.subName;
 
         if (!attendanceBySubject[subName]) {
             attendanceBySubject[subName] = {
@@ -40,14 +40,13 @@ export const groupAttendanceBySubject = (subjectAttendance) => {
 export const calculateOverallAttendancePercentage = (subjectAttendance) => {
     let totalSessionsSum = 0;
     let presentCountSum = 0;
-    const uniqueSubIds = [];
+    const uniqueSubIds = new Set();
 
     subjectAttendance.forEach((attendance) => {
-        const subId = attendance.subName._id;
-        if (!uniqueSubIds.includes(subId)) {
-            const sessions = parseInt(attendance.subName.sessions);
-            totalSessionsSum += sessions;
-            uniqueSubIds.push(subId);
+        const { _id: subId, sessions } = attendance.subName;
+        if (!uniqueSubIds.has(subId)) {
+            totalSessionsSum += parseInt(sessions);
+            uniqueSubIds.add(subId);
         }
         presentCountSum += attendance.status === "Present" ? 1 : 0;
     });
@@ -56,5 +55,5 @@ export const calculateOverallAttendancePercentage = (subjectAttendance) => {
         return 0;
     }
 
-    return (presentCountSum / totalSessionsSum) * 100;
+    return parseFloat(((presentCountSum / totalSessionsSum) * 100).toFixed(2));
 };

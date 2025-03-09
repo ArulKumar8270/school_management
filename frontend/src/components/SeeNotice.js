@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllNotices } from '../redux/noticeRelated/noticeHandle';
-import { Paper } from '@mui/material';
+import { Paper, Typography, CircularProgress, Box } from '@mui/material';
 import TableViewTemplate from './TableViewTemplate';
+import styled from 'styled-components';
 
 const SeeNotice = () => {
     const dispatch = useDispatch();
@@ -13,14 +14,13 @@ const SeeNotice = () => {
     useEffect(() => {
         if (currentRole === "Admin") {
             dispatch(getAllNotices(currentUser._id, "Notice"));
-        }
-        else {
+        } else {
             dispatch(getAllNotices(currentUser.school._id, "Notice"));
         }
-    }, [dispatch]);
+    }, [dispatch, currentRole, currentUser]);
 
     if (error) {
-        console.log(error);
+        console.error(error);
     }
 
     const noticeColumns = [
@@ -39,25 +39,45 @@ const SeeNotice = () => {
             id: notice._id,
         };
     });
+
     return (
-        <div style={{ marginTop: '50px', marginRight: '20px' }}>
+        <StyledContainer>
             {loading ? (
-                <div style={{ fontSize: '20px' }}>Loading...</div>
+                <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+                    <CircularProgress />
+                </Box>
             ) : response ? (
-                <div style={{ fontSize: '20px' }}>No Notices to Show Right Now</div>
+                <Typography variant="h6" align="center">No Notices to Show Right Now</Typography>
             ) : (
                 <>
-                    <h3 style={{ fontSize: '30px', marginBottom: '40px' }}>Notices</h3>
-                    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                    <Typography variant="h4" align="center" gutterBottom>Notices</Typography>
+                    <StyledPaper>
                         {Array.isArray(noticesList) && noticesList.length > 0 &&
                             <TableViewTemplate columns={noticeColumns} rows={noticeRows} />
                         }
-                    </Paper>
+                    </StyledPaper>
                 </>
             )}
-        </div>
+        </StyledContainer>
+    );
+};
 
-    )
-}
+const StyledContainer = styled.div`
+  margin-top: 50px;
+  margin-right: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+`;
 
-export default SeeNotice
+const StyledPaper = styled(Paper)`
+  width: 100%;
+  overflow: hidden;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+`;
+
+export default SeeNotice;

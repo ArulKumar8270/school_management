@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { getTeacherDetails } from '../../../redux/teacherRelated/teacherHandle';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Container, Typography } from '@mui/material';
+import { Button, Container, Typography, CircularProgress, Paper } from '@mui/material';
+import styled from 'styled-components';
 
 const TeacherDetails = () => {
     const navigate = useNavigate();
@@ -16,10 +17,6 @@ const TeacherDetails = () => {
         dispatch(getTeacherDetails(teacherID));
     }, [dispatch, teacherID]);
 
-    if (error) {
-        console.log(error);
-    }
-
     const isSubjectNamePresent = teacherDetails?.teachSubject?.subName;
 
     const handleAddSubject = () => {
@@ -27,38 +24,96 @@ const TeacherDetails = () => {
     };
 
     return (
-        <>
+        <StyledContainer>
             {loading ? (
-                <div>Loading...</div>
+                <LoadingContainer>
+                    <CircularProgress size={50} />
+                    <Typography variant="h6" sx={{ mt: 2, color: "#555" }}>
+                        Loading Teacher Details...
+                    </Typography>
+                </LoadingContainer>
             ) : (
-                <Container>
+                <StyledPaper elevation={3}>
                     <Typography variant="h4" align="center" gutterBottom>
-                        Teacher Details
+                        👩‍🏫 Teacher Details
                     </Typography>
                     <Typography variant="h6" gutterBottom>
-                        Teacher Name: {teacherDetails?.name}
+                        <strong>👤 Name:</strong> {teacherDetails?.name}
                     </Typography>
                     <Typography variant="h6" gutterBottom>
-                        Class Name: {teacherDetails?.teachSclass?.sclassName}
+                        <strong>🏫 Class:</strong> {teacherDetails?.teachSclass?.sclassName}
                     </Typography>
                     {isSubjectNamePresent ? (
                         <>
                             <Typography variant="h6" gutterBottom>
-                                Subject Name: {teacherDetails?.teachSubject?.subName}
+                                <strong>📘 Subject:</strong> {teacherDetails?.teachSubject?.subName}
                             </Typography>
                             <Typography variant="h6" gutterBottom>
-                                Subject Sessions: {teacherDetails?.teachSubject?.sessions}
+                                <strong>🕒 Sessions:</strong> {teacherDetails?.teachSubject?.sessions}
                             </Typography>
                         </>
                     ) : (
-                        <Button variant="contained" onClick={handleAddSubject}>
-                            Add Subject
-                        </Button>
+                        <ButtonContainer>
+                            <AddSubjectButton variant="contained" onClick={handleAddSubject}>
+                                ➕ Add Subject
+                            </AddSubjectButton>
+                        </ButtonContainer>
                     )}
-                </Container>
+                </StyledPaper>
             )}
-        </>
+        </StyledContainer>
     );
 };
 
 export default TeacherDetails;
+
+// 🎨 Styled Components for Modern UI
+const StyledContainer = styled(Container)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px;
+    background: linear-gradient(135deg, #e3f2fd, #f1f8e9);
+`;
+
+const StyledPaper = styled(Paper)`
+    width: 100%;
+    max-width: 600px;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+    background: white;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        transform: scale(1.02);
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+    }
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+`;
+
+const AddSubjectButton = styled(Button)`
+    background: linear-gradient(135deg, #1976d2, #43a047);
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        background: linear-gradient(135deg, #1565c0, #388e3c);
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    }
+`;
+
+const LoadingContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50vh;
+`;
