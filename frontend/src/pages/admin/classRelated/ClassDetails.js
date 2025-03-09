@@ -148,11 +148,11 @@ const StyledContainer = styled(Container)`
 `;
 
 const StyledTabContainer = styled(Box)`
-    background: white;
+    // background: white;
     position: sticky;
     top: 0;
     z-index: 10;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    // box-shadow: 0 2px 10px rgba(0,0,0,0.15);
 `;
 
 const DetailsCard = styled(Card)`

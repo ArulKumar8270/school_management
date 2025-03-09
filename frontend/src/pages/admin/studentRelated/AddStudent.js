@@ -179,7 +179,7 @@ const SubmitButton = styled(Button)`
     width: 100%;
     margin-top: 15px;
     background: linear-gradient(135deg, #1976d2, #43a047);
-    color: white;
+    color: white !important;
     font-weight: bold;
     transition: all 0.3s ease-in-out;
     padding: 12px;

@@ -110,7 +110,7 @@ export default ShowSubjects;
 // 🎨 Styled Components for Better UI
 const Container = styled(Box)`
     padding: 20px;
-    background: #f9f9f9;
+    // background: #f9f9f9;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -119,16 +119,16 @@ const Container = styled(Box)`
 
 const StyledPaper = styled(Paper)`
     width: 100%;
-    max-width: 1200px;
-    padding: 20px;
+    // max-width: 1200px;
+    // padding: 20px;
     border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-    background: white;
-    transition: all 0.3s ease-in-out;
+    // box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    // background: transparent;
+    // transition: all 0.3s ease-in-out;
 
-    &:hover {
-        box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.2);
-    }
+    // &:hover {
+    //     box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.2);
+    // }
 `;
 
 const ButtonContainer = styled(Box)`

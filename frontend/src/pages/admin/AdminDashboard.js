@@ -43,7 +43,7 @@ import ShowClasses from './classRelated/ShowClasses';
 import AccountMenu from '../../components/AccountMenu';
 
 const AdminDashboard = () => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
     const toggleDrawer = () => {
         setOpen(!open);
     };
@@ -83,6 +83,7 @@ const AdminDashboard = () => {
                         <IconButton onClick={toggleDrawer}>
                             <ChevronLeftIcon />
                         </IconButton>
+                        Nickname Infotech
                     </Toolbar>
                     <Divider />
                     <List component="nav">
@@ -157,7 +158,7 @@ const styles = {
     toolBarStyled: {
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'flex-end',
+        // justifyContent: 'flex-end',
         px: [1],
     },
     drawerStyled: {

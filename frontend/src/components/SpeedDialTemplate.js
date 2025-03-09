@@ -29,7 +29,7 @@ const CustomSpeedDial = styled(SpeedDial)`
     color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease;
-
+    margin: 10px;
     &:hover {
       background-color: #3700b3;
     }

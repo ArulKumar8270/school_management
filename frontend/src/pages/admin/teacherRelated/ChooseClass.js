@@ -98,8 +98,8 @@ const StyledPaper = styled(Paper)`
     max-width: 900px;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
-    background: white;
+    box-shadow: none !important;
+    background: none !important;
     transition: all 0.3s ease-in-out;
 
     &:hover {

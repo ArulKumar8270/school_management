@@ -212,7 +212,6 @@ const LoginCard = styled(Paper)`
 const FormFieldContainer = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 20px;
 `;
 
 const LoginButton = styled(Button)`
@@ -241,5 +240,5 @@ const GuestButton = styled(Button)`
 `;
 
 const CustomTextField = styled(TextField)`
-    margin-bottom: 15px;
+    margin-bottom: 15px !important;
 `;

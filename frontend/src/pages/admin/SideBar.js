@@ -58,7 +58,7 @@ const SideBar = () => {
     );
 
     return (
-        <Box sx={{ bgcolor: 'background.paper', borderRadius: 2, boxShadow: 3, p: 2 }}>
+        <Box >
             <React.Fragment>
                 {renderMenuItems(menuItems)}
             </React.Fragment>

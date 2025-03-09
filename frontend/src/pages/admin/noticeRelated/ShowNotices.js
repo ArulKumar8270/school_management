@@ -15,9 +15,9 @@ import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
 const StyledPaper = styled(Paper)(({ theme }) => ({
     width: '100%',
     overflow: 'hidden',
-    padding: theme.spacing(2),
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[3],
+    // padding: theme.spacing(2),
+    backgroundColor: "none !important",
+    boxShadow: "none !important",
 }));
 
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -100,7 +100,7 @@ const ShowNotices = () => {
                             </GreenButton>
                         </Box>
                     ) : (
-                        <StyledPaper>
+                        <div>
                             <Typography variant="h5" gutterBottom>
                                 Notices
                             </Typography>
@@ -108,7 +108,7 @@ const ShowNotices = () => {
                                 <TableTemplate buttonHaver={NoticeButtonHaver} columns={noticeColumns} rows={noticeRows} />
                             )}
                             <SpeedDialTemplate actions={actions} />
-                        </StyledPaper>
+                        </div>
                     )}
                 </>
             )}

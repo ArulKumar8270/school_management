@@ -49,6 +49,7 @@ const TeacherDashboard = () => {
                     <IconButton onClick={toggleDrawer}>
                         <ChevronLeftIcon />
                     </IconButton>
+                    Nickname Infotech
                 </Toolbar>
                 <Divider />
                 <List component="nav">
