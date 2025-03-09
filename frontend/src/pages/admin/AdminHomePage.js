@@ -35,8 +35,8 @@ const AdminHomePage = () => {
     return (
         <DashboardContainer>
             <Container maxWidth="lg">
-                <Grid container spacing={4}>
-                    <Grid item xs={12} md={3}>
+                <Grid container spacing={3}>
+                    <Grid item xs={12} md={4}>
                         <StyledCard>
                             <CardContent>
                                 <IconContainer>
@@ -56,7 +56,7 @@ const AdminHomePage = () => {
                             </CardContent>
                         </StyledCard>
                     </Grid>
-                    <Grid item xs={12} md={3}>
+                    <Grid item xs={12} md={4}>
                         <StyledCard>
                             <CardContent>
                                 <IconContainer>
@@ -76,7 +76,7 @@ const AdminHomePage = () => {
                             </CardContent>
                         </StyledCard>
                     </Grid>
-                    <Grid item xs={12} md={3}>
+                    <Grid item xs={12} md={4}>
                         <StyledCard>
                             <CardContent>
                                 <IconContainer>
@@ -96,7 +96,7 @@ const AdminHomePage = () => {
                             </CardContent>
                         </StyledCard>
                     </Grid>
-                    <Grid item xs={12} md={3}>
+                    {/* <Grid item xs={12} md={3}>
                         <StyledCard>
                             <CardContent>
                                 <IconContainer>
@@ -115,7 +115,7 @@ const AdminHomePage = () => {
                                 </StatsContent>
                             </CardContent>
                         </StyledCard>
-                    </Grid>
+                    </Grid> */}
                     <Grid item xs={12}>
                         <NoticeContainer>
                             <SeeNotice />
@@ -188,7 +188,7 @@ const StatValue = styled(Typography)`
 const NoticeContainer = styled(Paper)`
     padding: 2.5rem;
     border-radius: 20px;
-    background: linear-gradient(to bottom right, #ffffff, #f8f9fa);
+    background: none !important;
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     position: relative;
     overflow: hidden;

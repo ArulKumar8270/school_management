@@ -72,7 +72,7 @@ export default ChooseUser;
 
 // 🎨 Styled Components for Modern UI
 const StyledContainer = styled.div`
-  background: linear-gradient(to bottom, #3a1c71, #d76d77, #ffaf7b);
+  // background: linear-gradient(to bottom, #3a1c71, #d76d77, #ffaf7b);
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -84,9 +84,9 @@ const UserCard = styled(Paper)`
   padding: 25px;
   text-align: center;
   border-radius: 15px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(12px);
-  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
+  background:#efefef !important;
+  // backdrop-filter: blur(12px);
+  box-shadow: rgba(0, 0, 0, 0.15) 14px 17px 6px !important;
   color: white;
   cursor: pointer;
   transition: all 0.3s ease-in-out;

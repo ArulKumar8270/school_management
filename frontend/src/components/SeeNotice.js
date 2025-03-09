@@ -51,11 +51,11 @@ const SeeNotice = () => {
             ) : (
                 <>
                     <Typography variant="h4" align="center" gutterBottom>Notices</Typography>
-                    <StyledPaper>
+                    {/* <StyledPaper> */}
                         {Array.isArray(noticesList) && noticesList.length > 0 &&
                             <TableViewTemplate columns={noticeColumns} rows={noticeRows} />
                         }
-                    </StyledPaper>
+                    {/* </StyledPaper> */}
                 </>
             )}
         </StyledContainer>
@@ -63,21 +63,18 @@ const SeeNotice = () => {
 };
 
 const StyledContainer = styled.div`
-  margin-top: 50px;
-  margin-right: 20px;
-  padding: 20px;
-  background-color: #f9f9f9;
+  background-color: none !important;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: none !important;
 `;
 
 const StyledPaper = styled(Paper)`
   width: 100%;
   overflow: hidden;
   padding: 20px;
-  background-color: #fff;
+  background-color: !important;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: none !important;
 `;
 
 export default SeeNotice;
