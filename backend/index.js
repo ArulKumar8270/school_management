@@ -5,6 +5,7 @@ const dotenv = require("dotenv")
 // const bodyParser = require("body-parser")
 const app = express()
 const Routes = require("./routes/route.js")
+const path = require("path");
 
 const PORT = process.env.PORT || 8000
 
@@ -15,7 +16,7 @@ dotenv.config();
 
 app.use(express.json({ limit: '10mb' }))
 app.use(cors())
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 mongoose
     .connect(process.env.MONGO_URL, {
         useNewUrlParser: true,
