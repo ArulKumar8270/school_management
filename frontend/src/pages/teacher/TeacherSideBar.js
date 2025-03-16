@@ -9,6 +9,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import AnnouncementOutlinedIcon from '@mui/icons-material/AnnouncementOutlined';
 import ClassOutlinedIcon from '@mui/icons-material/ClassOutlined';
+import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 
 const TeacherSideBar = () => {
     const { currentUser } = useSelector((state) => state.user);
@@ -31,13 +32,18 @@ const TeacherSideBar = () => {
                 <ListItemText primary={`Class ${sclassName.sclassName}`} />
             </SidebarItem>
 
-            <SidebarItem component={Link} to="/Teacher/complain">
+            {/* <SidebarItem component={Link} to="/Teacher/complain">
                 <StyledListItemIcon active={location.pathname.startsWith("/Teacher/complain")}>
                     <AnnouncementOutlinedIcon />
                 </StyledListItemIcon>
                 <ListItemText primary="Complain" />
+            </SidebarItem> */}
+            <SidebarItem component={Link} to="/Teacher/notices">
+                <StyledListItemIcon active={location.pathname.startsWith("/Teacher/notices")}>
+                    <CircleNotificationsIcon />
+                </StyledListItemIcon>
+                <ListItemText primary="Notices" />
             </SidebarItem>
-
             <DividerStyled />
 
             <ListSubheaderStyled>User</ListSubheaderStyled>

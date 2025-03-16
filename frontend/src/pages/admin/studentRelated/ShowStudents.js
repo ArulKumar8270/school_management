@@ -13,6 +13,7 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 import Popup from '../../../components/Popup';
+import { deleteUser } from '../../../redux/userRelated/userHandle';
 import styled from 'styled-components';
 
 const ShowStudents = () => {
@@ -33,8 +34,11 @@ const ShowStudents = () => {
     const [message, setMessage] = useState("");
 
     const deleteHandler = (deleteID, address) => {
-        setMessage("🚫 Sorry, the delete function has been disabled for now.");
-        setShowPopup(true);
+        // setMessage("🚫 Sorry, the delete function has been disabled for now.");
+        // setShowPopup(true);
+        dispatch(deleteUser(deleteID, address)).then(() => {
+            dispatch(getAllStudents(currentUser._id));
+        });
     };
 
     const studentColumns = [
@@ -139,27 +143,27 @@ const ShowStudents = () => {
 
     return (
         <StyledContainer>
-            {loading ? (
-                <LoadingContainer>
-                    <CircularProgress size={50} />
-                    <Typography variant="h6" sx={{ mt: 2, color: "#555" }}>
-                        Loading Students...
-                    </Typography>
-                </LoadingContainer>
-            ) : response ? (
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-                    <GreenButton variant="contained" onClick={() => navigate("/Admin/addstudents")}>
-                        ➕ Add Students
-                    </GreenButton>
-                </Box>
-            ) : (
-                <StyledPaper>
-                    {Array.isArray(studentsList) && studentsList.length > 0 && (
-                        <TableTemplate buttonHaver={StudentButtonHaver} columns={studentColumns} rows={studentRows} />
-                    )}
-                    <SpeedDialTemplate actions={actions} />
-                </StyledPaper>
-            )}
+              {loading ? (
+                    <LoadingContainer>
+                        <CircularProgress size={50} />
+                        <Typography variant="h6" sx={{ mt: 2, color: "#555" }}>
+                            Loading Students...
+                        </Typography>
+                    </LoadingContainer>
+                ) : (
+                    <StyledPaper>
+                        <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
+                            <GreenButton variant="contained" onClick={() => navigate("/Admin/addstudents")}>
+                                ➕ Add Students
+                            </GreenButton>
+                        </Box>
+                        {Array.isArray(studentsList) && studentsList.length > 0 && (
+                            <TableTemplate buttonHaver={StudentButtonHaver} columns={studentColumns} rows={studentRows} />
+                        )}
+                        <SpeedDialTemplate actions={actions} />
+                    </StyledPaper>
+                )}
+
             <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
         </StyledContainer>
     );
@@ -182,14 +186,9 @@ const StyledPaper = styled(Paper)`
     max-width: 1100px;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
-    background: white;
+    box-shadow: none !important;
+    background: none !important;
     transition: all 0.3s ease-in-out;
-
-    &:hover {
-        transform: scale(1.02);
-        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
-    }
 `;
 
 const ButtonContainer = styled(Box)`

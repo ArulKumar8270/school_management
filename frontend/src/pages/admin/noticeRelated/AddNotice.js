@@ -4,6 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addStuff } from '../../../redux/userRelated/userHandle';
 import { underControl } from '../../../redux/userRelated/userSlice';
 import { CircularProgress, TextField, Button, Container, Typography, Box } from '@mui/material';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Popup from '../../../components/Popup';
 
 const AddNotice = () => {
@@ -15,13 +19,14 @@ const AddNotice = () => {
   const [title, setTitle] = useState('');
   const [details, setDetails] = useState('');
   const [date, setDate] = useState('');
+  const [noticeTo, setNoticeTo] = useState('all');
   const adminID = currentUser._id;
 
   const [loader, setLoader] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
 
-  const fields = { title, details, date, adminID };
+  const fields = { title, details, date, noticeTo, adminID };
   const address = "Notice";
 
   const submitHandler = (event) => {
@@ -77,6 +82,21 @@ const AddNotice = () => {
             onChange={(event) => setDate(event.target.value)}
             required
           />
+          <FormControl fullWidth className='mt-3'>
+            <InputLabel id="demo-simple-select-label">Notice To</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={noticeTo}
+              label="Notice to"
+              onChange={(event) => setNoticeTo(event.target.value)}
+              defaultValue='all'
+              >
+              <MenuItem value={"all"}>All</MenuItem>
+              <MenuItem value={"teacher"}>Teacher</MenuItem>
+              <MenuItem value={"student"}>student</MenuItem>
+            </Select>
+          </FormControl>
           <Button
             fullWidth
             variant="contained"

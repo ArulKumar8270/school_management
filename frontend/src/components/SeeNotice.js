@@ -11,6 +11,7 @@ const SeeNotice = () => {
     const { currentUser, currentRole } = useSelector(state => state.user);
     const { noticesList, loading, error, response } = useSelector((state) => state.notice);
 
+
     useEffect(() => {
         if (currentRole === "Admin") {
             dispatch(getAllNotices(currentUser._id, "Notice"));
@@ -52,9 +53,18 @@ const SeeNotice = () => {
                 <>
                     <Typography variant="h4" align="center" gutterBottom>Notices</Typography>
                     {/* <StyledPaper> */}
-                        {Array.isArray(noticesList) && noticesList.length > 0 &&
-                            <TableViewTemplate columns={noticeColumns} rows={noticeRows} />
-                        }
+                        {Array?.isArray(noticesList) && noticesList.length > 0 && (
+                                (() => {
+                                    const filteredNotices = noticesList.filter((notice) => {
+                                        const role = currentRole.toLowerCase();
+                                        const noticeType = notice.type?.toLowerCase();
+                                        return role === "admin" || noticeType === "all" || noticeType === role;
+                                    });
+                                    return filteredNotices.length > 0 ? (
+                                        <TableViewTemplate columns={noticeColumns} rows={filteredNotices} />
+                                    ) : null;
+                                })()
+                            )}
                     {/* </StyledPaper> */}
                 </>
             )}

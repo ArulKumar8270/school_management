@@ -21,6 +21,7 @@ import TeacherComplain from './TeacherComplain';
 import TeacherHomePage from './TeacherHomePage';
 import TeacherProfile from './TeacherProfile';
 import TeacherViewStudent from './TeacherViewStudent';
+import NoticesComponents from './NoticesComponents'
 import StudentExamMarks from '../admin/studentRelated/StudentExamMarks';
 import styled from 'styled-components';
 
@@ -63,7 +64,8 @@ const TeacherDashboard = () => {
                     <Route path="*" element={<Navigate to="/" />} />
                     <Route path="/Teacher/dashboard" element={<TeacherHomePage />} />
                     <Route path="/Teacher/profile" element={<TeacherProfile />} />
-                    <Route path="/Teacher/complain" element={<TeacherComplain />} />
+                    {/* <Route path="/Teacher/complain" element={<TeacherComplain />} /> */}
+                    <Route path="/Teacher/notices" element={<NoticesComponents />} />
                     <Route path="/Teacher/class" element={<TeacherClassDetails />} />
                     <Route path="/Teacher/class/student/:id" element={<TeacherViewStudent />} />
                     <Route path="/Teacher/class/student/attendance/:studentID/:subjectID" element={<StudentAttendance situation="Subject" />} />

@@ -29,8 +29,11 @@ const ShowTeachers = () => {
     const [message, setMessage] = useState("");
 
     const deleteHandler = (deleteID, address) => {
-        setMessage("🚫 Sorry, the delete function has been disabled for now.");
-        setShowPopup(true);
+        // setMessage("🚫 Sorry, the delete function has been disabled for now.");
+        // setShowPopup(true);
+        dispatch(deleteUser(deleteID, address)).then(() => {
+            dispatch(getAllTeachers(currentUser._id));
+        });
     };
 
     const columns = [

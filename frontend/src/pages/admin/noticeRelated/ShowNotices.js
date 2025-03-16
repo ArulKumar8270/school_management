@@ -34,7 +34,7 @@ const ShowNotices = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { noticesList, loading, error, response } = useSelector((state) => state.notice);
-    const { currentUser } = useSelector(state => state.user);
+    const { currentUser, currentRole } = useSelector(state => state.user);
 
     useEffect(() => {
         dispatch(getAllNotices(currentUser._id, "Notice"));
@@ -70,7 +70,7 @@ const ShowNotices = () => {
 
     const NoticeButtonHaver = ({ row }) => {
         return (
-            <IconButton onClick={() => deleteHandler(row.id, "Notice")}>
+            <IconButton onClick={() => deleteHandler(row._id, "Notice")}>
                 <DeleteIcon color="error" />
             </IconButton>
         );
@@ -104,8 +104,17 @@ const ShowNotices = () => {
                             <Typography variant="h5" gutterBottom>
                                 Notices
                             </Typography>
-                            {Array.isArray(noticesList) && noticesList.length > 0 && (
-                                <TableTemplate buttonHaver={NoticeButtonHaver} columns={noticeColumns} rows={noticeRows} />
+                            {Array?.isArray(noticesList) && noticesList.length > 0 && (
+                                (() => {
+                                    const filteredNotices = noticesList.filter((notice) => {
+                                        const role = currentRole.toLowerCase();
+                                        const noticeType = notice.type?.toLowerCase();
+                                        return role === "admin" || noticeType === "all" || noticeType === role;
+                                    });
+                                    return filteredNotices.length > 0 ? (
+                                        <TableTemplate buttonHaver={NoticeButtonHaver} columns={noticeColumns} rows={filteredNotices} />
+                                    ) : null;
+                                })()
                             )}
                             <SpeedDialTemplate actions={actions} />
                         </div>

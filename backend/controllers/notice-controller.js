@@ -1,9 +1,11 @@
 const Notice = require('../models/noticeSchema.js');
 
 const noticeCreate = async (req, res) => {
+    console.log(req.body, "asdf7as90d8f7")
     try {
         const notice = new Notice({
             ...req.body,
+            type: req.body.noticeTo,
             school: req.body.adminID
         })
         const result = await notice.save()
@@ -42,7 +44,7 @@ const deleteNotice = async (req, res) => {
         const result = await Notice.findByIdAndDelete(req.params.id)
         res.send(result)
     } catch (error) {
-        res.status(500).json(err);
+        res.status(500).json(error);
     }
 }
 

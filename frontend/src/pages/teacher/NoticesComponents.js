@@ -10,7 +10,7 @@ import { getClassStudents, getSubjectDetails } from '../../redux/sclassRelated/s
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
-const TeacherHomePage = () => {
+const NoticesComponents = () => {
     const dispatch = useDispatch();
     const { currentUser } = useSelector((state) => state.user);
     const { subjectDetails, sclassStudents } = useSelector((state) => state.sclass);
@@ -29,43 +29,8 @@ const TeacherHomePage = () => {
     return (
         <StyledContainer maxWidth="lg">
             <Grid container spacing={3}>
-                {/* Class Students */}
-                <Grid item xs={12} md={6} lg={3}>
-                    <StatCard>
-                        <StatIcon src={StudentsIcon} alt="Students" />
-                        <StatTitle>Class Students</StatTitle>
-                        <StatData start={0} end={numberOfStudents} duration={2.5} />
-                    </StatCard>
-                    {/* Total Lessons */}
-                    <StatCard>
-                        <StatIcon src={LessonsIcon} alt="Lessons" />
-                        <StatTitle>Total Lessons</StatTitle>
-                        <StatData start={0} end={numberOfSessions} duration={5} />
-                    </StatCard>
-                </Grid>
-
-                
-
-                {/* Tests Taken
-                <Grid item xs={12} md={6} lg={3}>
-                    <StatCard>
-                        <StatIcon src={TestsIcon} alt="Tests" />
-                        <StatTitle>Tests Taken</StatTitle>
-                        <StatData start={0} end={24} duration={4} />
-                    </StatCard>
-                </Grid> */}
-
-                {/* Total Hours */}
-                {/* <Grid item xs={12} md={6} lg={3}>
-                    <StatCard>
-                        <StatIcon src={TimeIcon} alt="Time" />
-                        <StatTitle>Total Hours</StatTitle>
-                        <StatData start={0} end={30} duration={4} suffix=" hrs" />
-                    </StatCard>
-                </Grid> */}
-
                 {/* Notices Section */}
-                <Grid item xs={9}>
+                <Grid item xs={12}>
                     <NoticeCard>
                         <SeeNotice />
                     </NoticeCard>
@@ -75,7 +40,7 @@ const TeacherHomePage = () => {
     );
 };
 
-export default TeacherHomePage;
+export default NoticesComponents;
 
 // 🎨 Styled Components for Modern UI
 const StyledContainer = styled(Container)`

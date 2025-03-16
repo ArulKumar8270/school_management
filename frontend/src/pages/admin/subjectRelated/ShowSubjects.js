@@ -10,6 +10,7 @@ import PostAddIcon from '@mui/icons-material/PostAdd';
 import TableTemplate from '../../../components/TableTemplate';
 import { BlueButton, GreenButton } from '../../../components/buttonStyles';
 import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
+import { deleteUser } from '../../../redux/userRelated/userHandle';
 import Popup from '../../../components/Popup';
 import styled from 'styled-components';
 
@@ -31,8 +32,11 @@ const ShowSubjects = () => {
     const [message, setMessage] = useState("");
 
     const deleteHandler = (deleteID, address) => {
-        setMessage("🚫 Sorry, the delete function has been disabled for now.");
-        setShowPopup(true);
+        // setMessage("🚫 Sorry, the delete function has been disabled for now.");
+        dispatch(deleteUser(deleteID, address)).then(() => {
+            dispatch(getSubjectList(currentUser._id, "AllSubjects"));
+        });
+        // setShowPopup(true);
     };
 
     const subjectColumns = [

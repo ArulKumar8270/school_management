@@ -17,6 +17,11 @@ const noticeSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'admin'
     },
+    type : {
+        type : String,
+        ref: "admin",
+        default : "all"
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model("notice", noticeSchema)

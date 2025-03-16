@@ -86,7 +86,7 @@ const StyledContainer = styled(Box)`
     align-items: center;
     min-height: 80vh;
     padding: 20px;
-    background: linear-gradient(135deg, #e3f2fd, #f1f8e9);
+    background: none !important;
 `;
 
 const StyledPaper = styled(Paper)`
@@ -94,14 +94,9 @@ const StyledPaper = styled(Paper)`
     max-width: 1100px;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
-    background: white;
+    box-shadow: none !important;
+    background: none !important;
     transition: all 0.3s ease-in-out;
-
-    &:hover {
-        transform: scale(1.02);
-        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
-    }
 `;
 
 const CheckboxContainer = styled(Box)`
