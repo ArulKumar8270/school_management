@@ -113,6 +113,30 @@ const getAdminDetail = async (req, res) => {
     }
 }
 
+const getAdminDetails = async (req, res) => {
+    try {
+        const { role } = req.query; // Get role from query params
+
+        // Build filter object
+        let filter = {};
+        if (role) {
+            filter.role = role; // Filter by role if provided
+        }
+
+        // Fetch admins with optional filtering
+        const admins = await Admin.find(filter).select("-password"); // Exclude password
+
+        if (!admins || admins.length === 0) {
+            return res.status(404).json({ message: "No admins found" });
+        }
+
+        res.json(admins);
+    } catch (err) {
+        res.status(500).json({ message: "Server error", error: err });
+    }
+};
+
+
 // const deleteAdmin = async (req, res) => {
 //     try {
 //         const result = await Admin.findByIdAndDelete(req.params.id)
@@ -130,23 +154,23 @@ const getAdminDetail = async (req, res) => {
 //     }
 // }
 
-// const updateAdmin = async (req, res) => {
-//     try {
-//         if (req.body.password) {
-//             const salt = await bcrypt.genSalt(10)
-//             res.body.password = await bcrypt.hash(res.body.password, salt)
-//         }
-//         let result = await Admin.findByIdAndUpdate(req.params.id,
-//             { $set: req.body },
-//             { new: true })
+const updateAdmin = async (req, res) => {
+    try {
+        if (req.body.password) {
+            const salt = await bcrypt.genSalt(10)
+            res.body.password = await bcrypt.hash(res.body.password, salt)
+        }
+        let result = await Admin.findByIdAndUpdate(req.params.id,
+            { $set: req.body },
+            { new: true })
 
-//         result.password = undefined;
-//         res.send(result)
-//     } catch (error) {
-//         res.status(500).json(err);
-//     }
-// }
+        result.password = undefined;
+        res.send(result)
+    } catch (error) {
+        res.status(500).json(err);
+    }
+}
 
 // module.exports = { adminRegister, adminLogIn, getAdminDetail, deleteAdmin, updateAdmin };
 
-module.exports = { adminRegister, adminLogIn, getAdminDetail };
+module.exports = { adminRegister, adminLogIn, getAdminDetail, updateAdmin, getAdminDetails };

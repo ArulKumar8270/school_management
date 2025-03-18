@@ -1,8 +1,8 @@
 const router = require('express').Router();
 
-// const { adminRegister, adminLogIn, deleteAdmin, getAdminDetail, updateAdmin } = require('../controllers/admin-controller.js');
+const { adminRegister, adminLogIn, getAdminDetail, updateAdmin, getAdminDetails } = require('../controllers/admin-controller.js');
 
-const { adminRegister, adminLogIn, getAdminDetail} = require('../controllers/admin-controller.js');
+// const { adminRegister, adminLogIn, getAdminDetail, deleteAdmin} = require('../controllers/admin-controller.js');
 
 const { sclassCreate, sclassList, deleteSclass, deleteSclasses, getSclassDetail, getSclassStudents } = require('../controllers/class-controller.js');
 const { complainCreate, complainList } = require('../controllers/complain-controller.js');
@@ -32,14 +32,25 @@ const {
     deleteGallery
 } = require("../controllers/gallery-controller.js");
 
+const {
+    collectFees,
+    getFeesBySchool,
+    getFeesDetail,
+    updateFees,
+    deleteFees,
+    deleteFeesBySchool,
+    deleteFeesByClass
+} = require("../controllers/fees-controller.js");
+
 // Admin
 router.post('/AdminReg', adminRegister);
 router.post('/AdminLogin', adminLogIn);
 
 router.get("/Admin/:id", getAdminDetail)
+router.get("/Admin/schools", getAdminDetails)
 // router.delete("/Admin/:id", deleteAdmin)
 
-// router.put("/Admin/:id", updateAdmin)
+router.put("/Admin/:id", updateAdmin)
 
 // Student
 
@@ -123,11 +134,22 @@ router.delete("/Subject/:id", deleteSubject)
 router.delete("/Subjects/:id", deleteSubjects)
 router.delete("/SubjectsClass/:id", deleteSubjectsByClass)
 
+// Gallery
 
 router.post("/galleryCreate", addGallery);
 router.get("/galleryList/:id", getGalleryDetail);
 router.get("/galleries/:id", getGalleryBySchool);
 router.put("/gallery/:id", updateGallery);
 router.delete("/gallery/:id", deleteGallery);
+
+//Fees
+
+router.post("/feesCreate", collectFees);
+router.get("/feesList/:id", getFeesDetail);
+router.get("/fees/:id", getFeesBySchool);
+router.put("/fees/:id", updateFees);
+router.delete("/fees/:id", deleteFees);
+router.delete("/feesBySchool/:id", deleteFeesBySchool);
+router.delete("/feesByClass/:id", deleteFeesByClass);
 
 module.exports = router;
