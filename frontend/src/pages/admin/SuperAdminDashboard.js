@@ -26,7 +26,6 @@ import ViewStudent from './studentRelated/ViewStudent';
 
 import AddNotice from './noticeRelated/AddNotice';
 import ShowNotices from './noticeRelated/ShowNotices';
-import FeesHistory from '../../components/FeesHistory'
 
 import ShowSubjects from './subjectRelated/ShowSubjects';
 import SubjectForm from './subjectRelated/SubjectForm';
@@ -46,7 +45,9 @@ import AccountMenu from '../../components/AccountMenu';
 import UploadGallery from '../../components/AddGallery';
 import ViewGalleryImage from '../../components/ViewGalleryImage'
 
-const AdminDashboard = () => {
+import Adminregister from '../../pages/admin/AdminRegisterPage'
+
+const SuperAdminDashboard = () => {
     const [open, setOpen] = useState(true);
     const toggleDrawer = () => {
         setOpen(!open);
@@ -97,12 +98,12 @@ const AdminDashboard = () => {
                 <Box component="main" sx={styles.boxStyled}>
                     <Toolbar />
                     <Routes>
-                        <Route path="/" element={<AdminHomePage />} />
+                        <Route path="/" element={<AdminHomePage role="superadmin"/>} />
                         <Route path='*' element={<Navigate to="/" />} />
-                        <Route path="/Admin/dashboard" element={<AdminHomePage />} />
+                        <Route path="/Admin/Adminregister" element={<Adminregister />} />
+                        
                         <Route path="/Admin/profile" element={<AdminProfile />} />
                         <Route path="/Admin/complains" element={<SeeComplains />} />
-                        <Route path="/Admin/feesHistory" element={<FeesHistory />} />
 
                         {/* Notice */}
                         <Route path="/Admin/addnotice" element={<AddNotice />} />
@@ -152,7 +153,7 @@ const AdminDashboard = () => {
     );
 }
 
-export default AdminDashboard
+export default SuperAdminDashboard
 
 const styles = {
     boxStyled: {

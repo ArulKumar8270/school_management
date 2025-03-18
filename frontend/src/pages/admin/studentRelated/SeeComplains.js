@@ -25,16 +25,15 @@ const SeeComplains = () => {
     { id: 'complaint', label: '📜 Complaint', minWidth: 250 },
     { id: 'date', label: '📅 Date', minWidth: 170 },
   ];
-
   const complainRows = complainsList?.length > 0
-    ? complainsList.map((complain) => {
+    ? complainsList?.map((complain) => {
         const date = new Date(complain.date);
         const dateString = date.toString() !== "Invalid Date" ? date.toISOString().substring(0, 10) : "Invalid Date";
         return {
-          user: complain.user.name,
-          complaint: complain.complaint,
+          user: complain?.user?.name,
+          complaint: complain?.complaint,
           date: dateString,
-          id: complain._id,
+          id: complain?._id,
         };
       })
     : [];

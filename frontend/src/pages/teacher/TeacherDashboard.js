@@ -23,6 +23,9 @@ import TeacherProfile from './TeacherProfile';
 import TeacherViewStudent from './TeacherViewStudent';
 import NoticesComponents from './NoticesComponents'
 import StudentExamMarks from '../admin/studentRelated/StudentExamMarks';
+import UploadGallery from '../../components/AddGallery'
+import ViewGalleryImage from '../../components/ViewGalleryImage'
+
 import styled from 'styled-components';
 
 const TeacherDashboard = () => {
@@ -62,6 +65,8 @@ const TeacherDashboard = () => {
                 <Routes>
                     <Route path="/" element={<TeacherHomePage />} />
                     <Route path="*" element={<Navigate to="/" />} />
+                    <Route path="/Teacher/AddGallery" element={<UploadGallery />} />
+                    <Route path="/Teacher/ViewGallery" element={<ViewGalleryImage address = "galleries"/>} />
                     <Route path="/Teacher/dashboard" element={<TeacherHomePage />} />
                     <Route path="/Teacher/profile" element={<TeacherProfile />} />
                     {/* <Route path="/Teacher/complain" element={<TeacherComplain />} /> */}

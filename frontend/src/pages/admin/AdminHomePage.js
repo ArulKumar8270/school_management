@@ -12,7 +12,7 @@ import { getAllSclasses } from '../../redux/sclassRelated/sclassHandle';
 import { getAllStudents } from '../../redux/studentRelated/studentHandle';
 import { getAllTeachers } from '../../redux/teacherRelated/teacherHandle';
 
-const AdminHomePage = () => {
+const AdminHomePage = (props) => {
     const dispatch = useDispatch();
     const { studentsList } = useSelector((state) => state.student);
     const { sclassesList } = useSelector((state) => state.sclass);
@@ -36,6 +36,28 @@ const AdminHomePage = () => {
         <DashboardContainer>
             <Container maxWidth="lg">
                 <Grid container spacing={3}>
+                    {props?.role === "superadmin" &&
+                        <Grid item xs={12} md={4}>
+                            <StyledCard>
+                                <CardContent>
+                                    <IconContainer>
+                                        <CardMedia
+                                            component="img"
+                                            image={Teachers}
+                                            alt="Teachers"
+                                            sx={{ width: 70, height: 70 }}
+                                        />
+                                    </IconContainer>
+                                    <StatsContent>
+                                        <StatLabel variant="h6">Total School</StatLabel>
+                                        <StatValue>
+                                            <CountUp start={0} end={numberOfTeachers} duration={2.5} />
+                                        </StatValue>
+                                    </StatsContent>
+                                </CardContent>
+                            </StyledCard>
+                        </Grid>
+                    }
                     <Grid item xs={12} md={4}>
                         <StyledCard>
                             <CardContent>
@@ -96,6 +118,7 @@ const AdminHomePage = () => {
                             </CardContent>
                         </StyledCard>
                     </Grid>
+
                     {/* <Grid item xs={12} md={3}>
                         <StyledCard>
                             <CardContent>
@@ -116,11 +139,11 @@ const AdminHomePage = () => {
                             </CardContent>
                         </StyledCard>
                     </Grid> */}
-                    <Grid item xs={12}>
+                    {props?.role !== "superadmin" ? <Grid item xs={12}>
                         <NoticeContainer>
                             <SeeNotice />
                         </NoticeContainer>
-                    </Grid>
+                    </Grid> : null}
                 </Grid>
             </Container>
         </DashboardContainer>

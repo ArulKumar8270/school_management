@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import { useSelector } from 'react-redux';
 import Homepage from './pages/Homepage';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import SuperAdminDashboard from './pages/admin/SuperAdminDashboard';
 import StudentDashboard from './pages/student/StudentDashboard';
 import TeacherDashboard from './pages/teacher/TeacherDashboard';
 import LoginPage from './pages/LoginPage';
@@ -24,11 +25,16 @@ const App = () => {
           <Route path="/Studentlogin" element={<LoginPage role="Student" />} />
           <Route path="/Teacherlogin" element={<LoginPage role="Teacher" />} />
 
-          <Route path="/Adminregister" element={<AdminRegisterPage />} />
+          {/* <Route path="/Adminregister" element={<AdminRegisterPage />} /> */}
 
           <Route path='*' element={<Navigate to="/" />} />
         </Routes>}
 
+      {currentRole === "SuperAdmin" &&
+        <>
+          <SuperAdminDashboard />
+        </>
+      }
       {currentRole === "Admin" &&
         <>
           <AdminDashboard />

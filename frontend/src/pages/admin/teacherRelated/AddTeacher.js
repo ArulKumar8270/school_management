@@ -72,9 +72,15 @@ const AddTeacher = () => {
             <Typography variant="body2" sx={{ fontWeight: "bold", mb: 2 }}>
               Class: {subjectDetails?.sclassName?.sclassName}
             </Typography>
-            <CustomTextField fullWidth label="Teacher's Name" value={name} onChange={(e) => setName(e.target.value)} required />
-            <CustomTextField fullWidth label="Teacher's Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <CustomTextField fullWidth label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <FieldContainer>
+              <CustomTextField fullWidth label="Teacher's Name" value={name} onChange={(e) => setName(e.target.value)} required />
+            </FieldContainer>
+            <FieldContainer>
+              <CustomTextField fullWidth label="Teacher's Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            </FieldContainer>
+            <FieldContainer>
+              <CustomTextField fullWidth label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            </FieldContainer>
             <SubmitButton type="submit" disabled={loader}>
               {loader ? <CircularProgress size={24} color="inherit" /> : "Register"}
             </SubmitButton>
@@ -129,25 +135,27 @@ const SubmitButton = styled(Button)`
   }
 `;
 
+const FieldContainer = styled.div`
+    margin-bottom: 18px;
+`;
+
 const CustomTextField = styled(TextField)`
-  margin-bottom: 12px;
-
-  & .MuiInputLabel-root {
-    color: #555;
-    font-size: 14px;
-  }
-  
-  & .MuiOutlinedInput-root {
-    border-radius: 10px;
-    transition: all 0.3s ease-in-out;
-
-    &:hover {
-      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    & .MuiInputLabel-root {
+        color: #555;
+        font-size: 14px;
     }
 
-    &.Mui-focused {
-      border-color: #1976d2;
-      box-shadow: 0px 0px 10px rgba(25, 118, 210, 0.3);
+    & .MuiOutlinedInput-root {
+        border-radius: 10px;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        &.Mui-focused {
+            border-color: #1976d2;
+            box-shadow: 0px 0px 10px rgba(25, 118, 210, 0.3);
+        }
     }
-  }
 `;

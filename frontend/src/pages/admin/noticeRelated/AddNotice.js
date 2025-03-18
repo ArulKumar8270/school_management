@@ -25,7 +25,7 @@ const AddNotice = () => {
   const [loader, setLoader] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
-
+ 
   const fields = { title, details, date, noticeTo, adminID };
   const address = "Notice";
 

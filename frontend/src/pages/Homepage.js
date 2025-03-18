@@ -37,7 +37,7 @@ const Homepage = () => {
                                     Login
                                 </LoginButton>
                             </StyledLink>
-                            <StyledLink to="/chooseasguest">
+                            {/* <StyledLink to="/chooseasguest">
                                 <GuestButton variant="outlined">
                                     Login as Guest
                                 </GuestButton>
@@ -47,7 +47,7 @@ const Homepage = () => {
                                 <Link to="/Adminregister" style={{ color: "#550080", fontWeight: "bold" }}>
                                     Sign up
                                 </Link>
-                            </StyledText>
+                            </StyledText> */}
                         </StyledButtonContainer>
                     </ContentWrapper>
                 </Grid>

@@ -10,6 +10,9 @@ import AnnouncementOutlinedIcon from '@mui/icons-material/AnnouncementOutlined';
 import ClassOutlinedIcon from '@mui/icons-material/ClassOutlined';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
+import PaymentsIcon from '@mui/icons-material/Payments';
+import CollectionsIcon from '@mui/icons-material/Collections';
+
 const StudentSideBar = () => {
     const location = useLocation();
 
@@ -44,6 +47,24 @@ const StudentSideBar = () => {
                     <CircleNotificationsIcon />
                 </StyledListItemIcon>
                 <ListItemText primary="Notices" />
+            </SidebarItem>
+            <SidebarItem component={Link} to="/Student/feesCollection">
+                <StyledListItemIcon active={location.pathname.startsWith("/Student/feesCollection")}>
+                    <PaymentsIcon />
+                </StyledListItemIcon>
+                <ListItemText primary="Fees Collection" />
+            </SidebarItem>
+            <SidebarItem component={Link} to="/Student/viewFeesDetails">
+                <StyledListItemIcon active={location.pathname.startsWith("/Student/viewFeesDetails")}>
+                    <PaymentsIcon />
+                </StyledListItemIcon>
+                <ListItemText primary="Fees History" />
+            </SidebarItem>
+            <SidebarItem component={Link} to="/Student/ViewGallery">
+                <StyledListItemIcon active={location.pathname.startsWith("/Student/ViewGallery")}>
+                    <CollectionsIcon />
+                </StyledListItemIcon>
+                <ListItemText primary="Gallery" />
             </SidebarItem>
             <DividerStyled />
             <ListSubheaderStyled>User</ListSubheaderStyled>

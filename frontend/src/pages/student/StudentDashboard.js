@@ -18,8 +18,11 @@ import StudentSubjects from './StudentSubjects';
 import ViewStdAttendance from './ViewStdAttendance';
 import StudentComplain from './StudentComplain';
 import NoticesComponets from './NoticesComponets'
+import FeesCollection from './FeesCollection'
+import FeesHistory from './FeesHistory'
 import Logout from '../Logout';
 import AccountMenu from '../../components/AccountMenu';
+import ViewGalleryImage from '../../components/ViewGalleryImage';
 import { AppBar, Drawer } from '../../components/styles';
 import styled from 'styled-components';
 
@@ -76,6 +79,9 @@ const StudentDashboard = () => {
                     <Route path="/Student/attendance" element={<ViewStdAttendance />} />
                     <Route path="/Student/complain" element={<StudentComplain />} />
                     <Route path="/Student/notices" element={<NoticesComponets />} />
+                    <Route path="/Student/feesCollection" element={<FeesCollection />} />
+                    <Route path="/Student/viewFeesDetails" element={<FeesHistory />} />
+                    <Route path="/Student/ViewGallery" element={<ViewGalleryImage address = "galleries"/>} />
                     <Route path="/logout" element={<Logout />} />
                 </Routes>
             </MainContent>

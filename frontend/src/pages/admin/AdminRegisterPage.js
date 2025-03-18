@@ -46,20 +46,23 @@ const AdminRegisterPage = () => {
         }
 
         const fields = { name, email, password, role, schoolName };
-        dispatch(registerUser(fields, role));
+        dispatch(registerUser(fields, role)).then(() => {
+            setLoader(false)
+            navigate('/')
+        });
     };
 
-    useEffect(() => {
-        if (status === 'success' || (currentUser !== null && currentRole === 'Admin')) {
-            navigate('/Admin/dashboard');
-        } else if (status === 'failed') {
-            setMessage(response);
-            setShowPopup(true);
-            setLoader(false);
-        } else if (status === 'error') {
-            console.log(error);
-        }
-    }, [status, currentUser, currentRole, navigate, error, response]);
+    // useEffect(() => {
+    //     if (status === 'success' || (currentUser !== null && currentRole === 'Admin')) {
+    //         navigate('/Admin/dashboard');
+    //     } else if (status === 'failed') {
+    //         setMessage(response);
+    //         setShowPopup(true);
+    //         setLoader(false);
+    //     } else if (status === 'error') {
+    //         console.log(error);
+    //     }
+    // }, [status, currentUser, currentRole, navigate, error, response]);
 
     return (
         <RegisterContainer>
@@ -68,7 +71,7 @@ const AdminRegisterPage = () => {
             <RegisterFormContainer>
                 <RegisterCard elevation={6}>
                     <Typography variant="h4" sx={{ mb: 3, color: "#2c2143", fontWeight: 'bold' }}>
-                        Admin Register
+                        School Register
                     </Typography>
                     <Typography variant="body1" sx={{ textAlign: 'center', color: "#666", mb: 4 }}>
                         Create your own school by registering as an admin. <br />
@@ -129,12 +132,12 @@ const AdminRegisterPage = () => {
                         <RegisterButton type="submit" fullWidth>
                             {loader ? <CircularProgress size={24} color="inherit" /> : "Register"}
                         </RegisterButton>
-                        <Typography align="center" sx={{ mt: 2 }}>
+                        {/* <Typography align="center" sx={{ mt: 2 }}>
                             Already have an account?{' '}
                             <StyledLink to="/Adminlogin">
                                 Log in
                             </StyledLink>
-                        </Typography>
+                        </Typography> */}
                     </form>
                 </RegisterCard>
             </RegisterFormContainer>

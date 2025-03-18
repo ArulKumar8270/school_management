@@ -9,11 +9,16 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import AnnouncementOutlinedIcon from '@mui/icons-material/AnnouncementOutlined';
 import ClassOutlinedIcon from '@mui/icons-material/ClassOutlined';
 import SupervisorAccountOutlinedIcon from '@mui/icons-material/SupervisorAccountOutlined';
+import CollectionsIcon from '@mui/icons-material/Collections';
 import ReportIcon from '@mui/icons-material/Report';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import { useDispatch, useSelector } from 'react-redux';
+import PaymentsIcon from '@mui/icons-material/Payments';
 
 const SideBar = () => {
     const location = useLocation();
+    const { currentUser, currentRole } = useSelector(state => state.user);
+
     const menuItems = [
         { to: "/", icon: <HomeIcon />, text: "Home", match: ["/", "/Admin/dashboard"] },
         { to: "/Admin/classes", icon: <ClassOutlinedIcon />, text: "Classes", match: ["/Admin/classes"] },
@@ -21,11 +26,18 @@ const SideBar = () => {
         { to: "/Admin/teachers", icon: <SupervisorAccountOutlinedIcon />, text: "Teachers", match: ["/Admin/teachers"] },
         { to: "/Admin/students", icon: <PersonOutlineIcon />, text: "Students", match: ["/Admin/students"] },
         { to: "/Admin/notices", icon: <AnnouncementOutlinedIcon />, text: "Notices", match: ["/Admin/notices"] },
+        { to: "/Admin/feesHistory", icon: <PaymentsIcon />, text: "Fees Details", match: ["/Admin/feesHistory"] },
         { to: "/Admin/complains", icon: <ReportIcon />, text: "Complains", match: ["/Admin/complains"] },
+        { to: "/Admin/ViewGallery", icon: <CollectionsIcon />, text: "Gallery", match: ["/Admin/ViewGallery"] },
+    ];
+
+    const supermenuItems = [
+        { to: "/", icon: <HomeIcon />, text: "Home", match: ["/", "/Admin/dashboard"] },
+        { to: "/Admin/Adminregister", icon: <AccountCircleOutlinedIcon />, text: "Create Schoool", match: ["/Admin/Adminregister"] },
     ];
 
     const userItems = [
-        { to: "/Admin/profile", icon: <AccountCircleOutlinedIcon />, text: "Profile", match: ["/Admin/profile"] },
+        // { to: "/Admin/profile", icon: <AccountCircleOutlinedIcon />, text: "Profile", match: ["/Admin/profile"] },
         { to: "/logout", icon: <ExitToAppIcon />, text: "Logout", match: ["/logout"] },
     ];
 
@@ -60,7 +72,7 @@ const SideBar = () => {
     return (
         <Box >
             <React.Fragment>
-                {renderMenuItems(menuItems)}
+                {renderMenuItems(currentRole === "Admin" ?  menuItems : supermenuItems)}
             </React.Fragment>
             <Divider sx={{ my: 1 }} />
             <React.Fragment>
