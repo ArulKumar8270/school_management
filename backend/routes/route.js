@@ -45,15 +45,13 @@ const {
 // Admin
 router.post('/AdminReg', adminRegister);
 router.post('/AdminLogin', adminLogIn);
-
+router.get("/AdminList", getAdminDetails)
 router.get("/Admin/:id", getAdminDetail)
-router.get("/Admin/schools", getAdminDetails)
 // router.delete("/Admin/:id", deleteAdmin)
 
 router.put("/Admin/:id", updateAdmin)
 
 // Student
-
 router.post('/StudentReg', studentRegister);
 router.post('/StudentLogin', studentLogIn)
 
@@ -80,7 +78,6 @@ router.put('/RemoveStudentAtten/:id', removeStudentAttendance)
 
 router.post('/TeacherReg', teacherRegister);
 router.post('/TeacherLogin', teacherLogIn)
-
 router.get("/Teachers/:id", getTeachers)
 router.get("/Teacher/:id", getTeacherDetail)
 
@@ -110,21 +107,15 @@ router.post('/ComplainCreate', complainCreate);
 router.get('/ComplainList/:id', complainList);
 
 // Sclass
-
 router.post('/SclassCreate', sclassCreate);
-
 router.get('/SclassList/:id', sclassList);
 router.get("/Sclass/:id", getSclassDetail)
-
 router.get("/Sclass/Students/:id", getSclassStudents)
-
 router.delete("/Sclasses/:id", deleteSclasses)
 router.delete("/Sclass/:id", deleteSclass)
 
 // Subject
-
 router.post('/SubjectCreate', subjectCreate);
-
 router.get('/AllSubjects/:id', allSubjects);
 router.get('/ClassSubjects/:id', classSubjects);
 router.get('/FreeSubjectList/:id', freeSubjectList);
