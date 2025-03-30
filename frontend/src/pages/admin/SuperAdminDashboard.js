@@ -46,6 +46,7 @@ import UploadGallery from '../../components/AddGallery';
 import ViewGalleryImage from '../../components/ViewGalleryImage'
 
 import Adminregister from '../../pages/admin/AdminRegisterPage'
+import SchoolList from './reportRelated/SchoolList'
 
 const SuperAdminDashboard = () => {
     const [open, setOpen] = useState(true);
@@ -101,7 +102,7 @@ const SuperAdminDashboard = () => {
                         <Route path="/" element={<AdminHomePage role="superadmin"/>} />
                         <Route path='*' element={<Navigate to="/" />} />
                         <Route path="/Admin/Adminregister" element={<Adminregister />} />
-                        
+                        <Route path="/Admin/SchoolList" element={<SchoolList />} />
                         <Route path="/Admin/profile" element={<AdminProfile />} />
                         <Route path="/Admin/complains" element={<SeeComplains />} />
 

@@ -55,7 +55,7 @@ const ClassDetails = () => {
                     <Typography variant="h6" sx={{ mt: 2, color: "#555" }}>Loading class details...</Typography>
                 </LoadingContainer>
             ) : (
-                <Box sx={{ width: '100%', typography: 'body1' }}>
+                <Box sx={{ width: '100%', typography: 'body1', marginTop:"30px" }}>
                     <StyledTabContainer>
                         <TabContext value={value}>
                             <Paper elevation={3} className="tab-header">

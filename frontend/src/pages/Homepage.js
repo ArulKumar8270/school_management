@@ -60,12 +60,12 @@ export default Homepage;
 
 // 🎨 Styled Components for Modern UI
 const StyledContainer = styled(Container)`
-  display: flex;
+  display: flex !important;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   padding: 40px;
-  background: linear-gradient(135deg, rgba(227, 242, 253, 0.9), rgba(241, 248, 233, 0.9));
+  // background: linear-gradient(135deg, rgba(227, 242, 253, 0.9), rgba(241, 248, 233, 0.9));
   backdrop-filter: blur(10px);
 `;
 

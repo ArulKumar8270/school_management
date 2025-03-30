@@ -72,43 +72,75 @@ export default ChooseUser;
 
 // 🎨 Styled Components for Modern UI
 const StyledContainer = styled.div`
-  // background: linear-gradient(to bottom, #3a1c71, #d76d77, #ffaf7b);
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 2rem;
+  background: linear-gradient(135deg, #f6f8fb 0%, #e9eef5 100%);
 `;
 
 const UserCard = styled(Paper)`
-  padding: 25px;
+  padding: 2.5rem;
   text-align: center;
-  border-radius: 15px;
-  background:#efefef !important;
-  // backdrop-filter: blur(12px);
-  box-shadow: rgba(0, 0, 0, 0.15) 14px 17px 6px !important;
-  color: white;
+  border-radius: 24px;
+  background: white !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #2196f3, #64b5f6);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+  }
 
   &:hover {
-    transform: scale(1.05);
-    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12) !important;
+
+    &:before {
+      transform: scaleX(1);
+    }
   }
 `;
 
 const IconContainer = styled(Box)`
-  font-size: 50px;
-  margin-bottom: 10px;
+  margin-bottom: 1.5rem;
+  color: #1976d2;
+  
+  .MuiSvgIcon-root {
+    font-size: 3.5rem;
+    transition: transform 0.3s ease;
+  }
+
+  ${UserCard}:hover & .MuiSvgIcon-root {
+    transform: scale(1.1);
+  }
 `;
 
 const Title = styled(Typography).attrs({ variant: "h5" })`
-  font-weight: bold;
-  margin-bottom: 10px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  letter-spacing: -0.5px;
 `;
 
 const Description = styled(Typography).attrs({ variant: "body2" })`
-  opacity: 0.8;
+  color: #64748b;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-top: 0.5rem;
 `;
 
 // 🔹 User Types

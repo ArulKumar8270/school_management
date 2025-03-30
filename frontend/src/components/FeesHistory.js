@@ -51,8 +51,7 @@ const FeesHistory = () => {
         </NoDataContainer>
       ) : (
         <StyledPaper>
-                      <InputLabel>Filter by Student</InputLabel>
-
+          <InputLabel>Filter by Student</InputLabel>
           <FormControl fullWidth hiddenLabel>
             <Select value={selectedStudent} onChange={handleStudentChange} displayEmpty>
               <MenuItem value="">All Students</MenuItem>

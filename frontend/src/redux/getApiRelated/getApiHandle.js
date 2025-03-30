@@ -6,10 +6,10 @@ import {
     getError
 } from './getApiSlice';
 
-export const getAPI = (id, address) => async (dispatch) => {
+export const getAPI = (params, address) => async (dispatch) => {
     dispatch(getRequest());
     try {
-        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/${address}List/${id}`);
+        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/${address}List/${params}`);
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {

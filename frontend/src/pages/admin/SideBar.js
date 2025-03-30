@@ -34,6 +34,7 @@ const SideBar = () => {
     const supermenuItems = [
         { to: "/", icon: <HomeIcon />, text: "Home", match: ["/", "/Admin/dashboard"] },
         { to: "/Admin/Adminregister", icon: <AccountCircleOutlinedIcon />, text: "Create Schoool", match: ["/Admin/Adminregister"] },
+        // { to: "/Admin/SchoolList", icon: <AccountCircleOutlinedIcon />, text: "Schools", match: ["/Admin/SchoolList"] },
     ];
 
     const userItems = [
@@ -48,35 +49,83 @@ const SideBar = () => {
                 to={to} 
                 key={text} 
                 sx={{
-                    borderRadius: 1,
+                    borderRadius: 2,
+                    mb: 0.5,
+                    transition: 'all 0.3s ease',
                     '&:hover': {
-                        backgroundColor: 'action.hover',
+                        backgroundColor: 'rgba(25, 118, 210, 0.08)',
+                        transform: 'translateX(5px)',
                     },
                     '&.Mui-selected': {
                         backgroundColor: 'primary.light',
+                        color: 'primary.main',
                         '&:hover': {
-                            backgroundColor: 'primary.main',
+                            backgroundColor: 'primary.light',
                         },
+                        '&::before': {
+                            content: '""',
+                            position: 'absolute',
+                            left: 0,
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            height: '60%',
+                            width: '4px',
+                            backgroundColor: 'primary.main',
+                            borderRadius: '0 4px 4px 0',
+                        }
                     },
                 }}
                 selected={match.some(path => location.pathname.startsWith(path))}
             >
-                <ListItemIcon>
-                    {React.cloneElement(icon, { color: match.some(path => location.pathname.startsWith(path)) ? 'primary' : 'inherit' })}
+                <ListItemIcon sx={{
+                    minWidth: 40,
+                    color: match.some(path => location.pathname.startsWith(path)) ? 'primary.main' : 'inherit'
+                }}>
+                    {icon}
                 </ListItemIcon>
-                <ListItemText primary={<Typography variant="body1" sx={{ fontWeight: 'bold' }}>{text}</Typography>} />
+                <ListItemText 
+                    primary={
+                        <Typography 
+                            variant="body2" 
+                            sx={{ 
+                                fontWeight: match.some(path => location.pathname.startsWith(path)) ? 600 : 400,
+                                fontSize: '0.95rem'
+                            }}
+                        >
+                            {text}
+                        </Typography>
+                    } 
+                />
             </ListItemButton>
         ))
     );
 
     return (
-        <Box >
+        <Box sx={{ 
+            p: 2,
+            height: '100%',
+            backgroundColor: 'background.paper',
+            // borderRight: '1px solid',
+            borderColor: 'divider'
+        }}>
             <React.Fragment>
-                {renderMenuItems(currentRole === "Admin" ?  menuItems : supermenuItems)}
+                {renderMenuItems(currentRole === "Admin" ? menuItems : supermenuItems)}
             </React.Fragment>
-            <Divider sx={{ my: 1 }} />
+            <Divider sx={{ 
+                my: 2,
+                opacity: 0.7
+            }} />
             <React.Fragment>
-                <ListSubheader component="div" inset>
+                <ListSubheader 
+                    component="div" 
+                    sx={{
+                        backgroundColor: 'transparent',
+                        color: 'text.secondary',
+                        fontSize: '0.75rem',
+                        lineHeight: '2.5',
+                        fontWeight: 600
+                    }}
+                >
                     User
                 </ListSubheader>
                 {renderMenuItems(userItems)}
