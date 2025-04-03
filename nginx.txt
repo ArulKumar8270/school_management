@@ -1,0 +1,59 @@
+  GNU nano 7.2                                                                                             /etc/nginx/sites-available/default                                                                                                      
+##
+# Default server configuration
+##
+
+server {
+    root /home/ubuntu/NickPortalVite;
+    index index.html index.htm index.nginx-debian.html;
+    server_name nicknameportal.shop;
+
+    # Frontend - Vite on port 5173
+    location /Admin/ {
+        rewrite ^/Admin/(.*)$ /$1 break;
+        proxy_pass http://localhost:5173;
+    }
+
+    # Backend API - Node.js on port 5000
+    location /Backend/ {
+        rewrite ^/Backend/(.*)$ /$1 break;
+        proxy_pass http://localhost:5000;
+    }
+
+    # Dashboard - Vite on port 5175
+    location / {
+        proxy_pass http://localhost:5175;
+    }
+
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/nicknameportal.shop/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/nicknameportal.shop/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+
+server {
+    root /home/ubuntu/NickPortalVite;
+    index index.html index.htm index.nginx-debian.html;
+    server_name winkites.com www.winkites.com;
+
+    location / {
+        proxy_pass http://localhost:5175;
+    }
+
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/winkites.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/winkites.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+
+# Redirect HTTP to HTTPS for both domains
+server {
+    listen 80;
+    listen [::]:80;
+    server_name nicknameportal.shop www.nicknameportal.shop winkites.com www.winkites.com;
+    return 301 https://$host$request_uri;
+}
