@@ -1,4 +1,3 @@
-  GNU nano 7.2                                                                                             /etc/nginx/sites-available/default                                                                                                      
 ##
 # Default server configuration
 ##
@@ -34,12 +33,18 @@ server {
 }
 
 server {
-    root /home/ubuntu/NickPortalVite;
+    root /home/ubuntu/school_management/frontend;
     index index.html index.htm index.nginx-debian.html;
     server_name winkites.com www.winkites.com;
 
+    # Serve frontend for winkites.com on port 3001
     location / {
-        proxy_pass http://localhost:5175;
+        proxy_pass http://localhost:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
     }
 
     listen [::]:443 ssl ipv6only=on; # managed by Certbot
